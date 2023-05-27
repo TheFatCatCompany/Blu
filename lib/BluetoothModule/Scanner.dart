@@ -13,7 +13,22 @@ class BluetoothScanner{
 
   //get list of discovered devices
   void scanDevices() async {
-    List<BluetoothDevice> devices = await FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
+    List<ScanResult> results = await FlutterBlue.instance.startScan(timeout: const Duration(seconds: 4));
+
+    List<BluetoothDevice> devices = results.map((result) => result.device).toList();
+
+    devices.sort((a, b) {
+      if (a.name.isNotEmpty && b.name.isNotEmpty) {
+        return a.name.compareTo(b.name);
+      } else if (a.name.isNotEmpty) {
+        return -1; // a has a name, b doesn't have a name (b should come after a)
+      } else if (b.name.isNotEmpty) {
+        return 1; // b has a name, a doesn't have a name (a should come after b)
+      } else {
+        return 0; // both a and b don't have names (order doesn't matter)
+      }
+    });
+
     for (BluetoothDevice device in currentDevicesMap.keys) {
       if(!devices.contains(device)){
         currentDevicesMap.remove(device);

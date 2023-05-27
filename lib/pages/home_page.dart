@@ -40,15 +40,23 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+
+  // What the hell
   Future<void> requestPermissionsAndStartScan() async {
-    PermissionStatus status = await Permission.bluetooth.request();
-    if (status != PermissionStatus.granted) {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.bluetooth,
+      Permission.location,
+    ].request();
+
+    if (statuses[Permission.bluetooth] != PermissionStatus.granted ||
+        statuses[Permission.location] != PermissionStatus.granted) {
       // Handle the case where permission is denied
       return;
     }
 
     scanner.scanDevices(); // Start Bluetooth scanning
   }
+
 
 
   @override
@@ -61,8 +69,7 @@ class _HomePageState extends State<HomePage> {
   void updateValues(){
     setState(() {
       // scan again for bluetooth devices
-      // scanner = BluetoothScanner();
-      scanner.scanDevices();
+      // scanner.scanDevices();
       deviceWidgets = scanner.getWidgets();
       while (deviceWidgets.isEmpty) {
         deviceWidgets = scanner.getWidgets();
