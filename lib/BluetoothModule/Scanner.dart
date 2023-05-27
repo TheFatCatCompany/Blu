@@ -5,10 +5,15 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:math';
 
+class CustomBluetoothDevice {
+  BluetoothDevice? device;
+  int rssi = 0;
+  CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val;
+}
 
 
 class BluetoothScanner{
-  Map<BluetoothDevice, int> currentDevicesMap = {};
+  Map<CustomBluetoothDevice, int> currentDevicesMap = {};
   List<BluetoothDevice> pairedDevicesList = [];
   List<BluetoothDevice> discoveredDevicesList = [];
 
@@ -16,26 +21,26 @@ class BluetoothScanner{
   void scanDevices() async {
     List<ScanResult> results = await FlutterBlue.instance.startScan(timeout: const Duration(seconds: 4));
 
-    List<BluetoothDevice> devices = results.map((result) => result.device).toList();
+    List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
     devices.sort((a, b) {
-      if (a.name.isNotEmpty && b.name.isNotEmpty) {
-        return a.name.compareTo(b.name);
-      } else if (a.name.isNotEmpty) {
+      if (a.device!.name.isNotEmpty && b.device!.name.isNotEmpty) {
+        return a.device!.name.compareTo(b.device!.name);
+      } else if (a.device!.name.isNotEmpty) {
         return -1; // a has a name, b doesn't have a name (b should come after a)
-      } else if (b.name.isNotEmpty) {
+      } else if (b.device!.name.isNotEmpty) {
         return 1; // b has a name, a doesn't have a name (a should come after b)
       } else {
         return 0; // both a and b don't have names (order doesn't matter)
       }
     });
-
-    for (BluetoothDevice device in currentDevicesMap.keys) {
+    List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
+    for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
         currentDevicesMap.remove(device);
       }
     }
-    for (BluetoothDevice device in devices) {
+    for (CustomBluetoothDevice device in devices) {
       if(!currentDevicesMap.containsKey(device)){
         currentDevicesMap[device] = 1;
       }
@@ -64,8 +69,9 @@ class BluetoothScanner{
 
     const IconData icon = Icons.favorite;
 
-    for (BluetoothDevice b in currentDevicesMap.keys) {
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), 0.0, theme));
+    for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
+      BluetoothDevice b = bt.device!;
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), bt.rssi.toDouble(), theme));
     }
 
     // checking if widgets actually show up
