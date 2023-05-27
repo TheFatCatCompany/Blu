@@ -1,22 +1,32 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:crypto_app/widgets/chart/discovered_device_data_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 
 class BluetoothScanner{
-  List<BluetoothDiscoveryResult> currentDevicesList = [];
+  Map<BluetoothDevice, int> currentDevicesMap = {};
   List<BluetoothDevice> pairedDevicesList = [];
-  List<BluetoothDiscoveryResult> discoveredDevicesList = [];
+  List<BluetoothDevice> discoveredDevicesList = [];
+
   //get list of discovered devices
-
-  Future<List<BluetoothDiscoveryResult>> devices() async {
-    await FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
-      debugPrint('what');
-      currentDevicesList.add(r);
-    }).asFuture();
-
-    return currentDevicesList;
+  void scanDevices() async {
+    List<BluetoothDevice> devices = await FlutterBlue.instance.startScan(timeout: Duration(seconds: 4));
+    for (BluetoothDevice device in currentDevicesMap.keys) {
+      if(!devices.contains(device)){
+        currentDevicesMap.remove(device);
+      }
+    }
+    for (BluetoothDevice device in devices) {
+      if(!currentDevicesMap.containsKey(device)){
+        currentDevicesMap[device] = 1;
+      }
+      else {
+        currentDevicesMap[device] = currentDevicesMap[device]! + 1;
+      }
+    }
   }
 
   List<Widget> getWidgets() {
@@ -38,8 +48,8 @@ class BluetoothScanner{
 
     const IconData icon = Icons.favorite;
 
-    for (BluetoothDiscoveryResult b in currentDevicesList) {
-      widgets.add(discovered_device_data_widget(true, icon, b.device.name!, b.device.address, b.device.type.stringValue, 0.0, theme));
+    for (BluetoothDevice b in currentDevicesMap.keys) {
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), 0.0, theme));
     }
 
     // checking if widgets acutally show up
@@ -51,18 +61,18 @@ class BluetoothScanner{
 
 
 //get list of paired devices
-  List<BluetoothDevice> pairedDevices() {
-    List<BluetoothDevice> devices = [];
-    FlutterBluetoothSerial.instance.getBondedDevices().then((r) {
-      devices = r;
-    });
-    return devices;
+  void getPairedDevices() async {
+    List<BluetoothDevice> pairedDevices = await FlutterBlue.instance.connectedDevices;
+    for (BluetoothDevice device in pairedDevices) {
+      pairedDevicesList.add(device);
+    }
   }
 
+
 //connect to a device
-  void connect(BluetoothDevice device) {
-    BluetoothConnection.toAddress(device.address).then((r) {
-      print('Connected to the device');
-    });
+  void connectToDevice(BluetoothDevice device) async {
+    if (device.state == BluetoothDeviceState.disconnected) {
+      await device.connect();
+    }
   }
 }
