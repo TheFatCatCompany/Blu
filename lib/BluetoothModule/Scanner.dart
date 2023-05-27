@@ -33,8 +33,8 @@ class BluetoothScanner{
         return 0; // both a and b don't have names (order doesn't matter)
       }
     });
-
-    for (CustomBluetoothDevice device in currentDevicesMap.keys) {
+    List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
+    for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
         currentDevicesMap.remove(device);
       }
