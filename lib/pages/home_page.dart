@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     // Start periodic timer when widget is initialized
-    scanner.devices();
+    scanner.scanDevices();
     timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       updateValues();
     });
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       // scan again for bluetooth devices
       // scanner = BluetoothScanner();
-      scanner.devices();
+      scanner.scanDevices();
       deviceWidgets = scanner.getWidgets();
       while (deviceWidgets.isEmpty) {
         deviceWidgets = scanner.getWidgets();
