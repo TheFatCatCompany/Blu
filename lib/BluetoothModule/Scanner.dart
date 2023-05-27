@@ -70,7 +70,7 @@ class BluetoothScanner{
 
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device!;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), bt.rssi.toDouble(), theme));
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!x.toDouble(), theme));
     }
 
     // checking if widgets acutally show up
