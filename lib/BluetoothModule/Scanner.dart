@@ -10,10 +10,12 @@ class BluetoothScanner{
   List<BluetoothDiscoveryResult> discoveredDevicesList = [];
   //get list of discovered devices
 
-  List<BluetoothDiscoveryResult> devices() {
-    FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
+  Future<List<BluetoothDiscoveryResult>> devices() async {
+    await FlutterBluetoothSerial.instance.startDiscovery().listen((r) {
+      debugPrint('what');
       currentDevicesList.add(r);
-    });
+    }).asFuture();
+
     return currentDevicesList;
   }
 
@@ -39,6 +41,9 @@ class BluetoothScanner{
     for (BluetoothDiscoveryResult b in currentDevicesList) {
       widgets.add(discovered_device_data_widget(true, icon, b.device.name!, b.device.address, b.device.type.stringValue, 0.0, theme));
     }
+
+    // checking if widgets acutally show up
+    widgets.add(discovered_device_data_widget(true, icon, 'test', '69', 'fakedevice', 69.0, theme));
 
     return widgets;
   }
