@@ -36,7 +36,7 @@ class BluetoothScanner{
       dividerColor: Colors.grey[400],
     );
 
-    const IconData icon = IconData(2);
+    const IconData icon = Icons.favorite;
 
     for (BluetoothDiscoveryResult b in currentDevicesList) {
       widgets.add(discovered_device_data_widget(true, icon, b.device.name!, b.device.address, b.device.type.stringValue, 0.0, theme));

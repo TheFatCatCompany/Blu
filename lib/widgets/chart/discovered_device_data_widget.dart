@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:crypto_app/pages/device_details_page.dart';
 
+import '../progress_bar.dart';
+
 Padding discovered_device_data_widget(
    bool isHomePage,
    IconData deviceIcon,
@@ -32,12 +34,19 @@ Padding discovered_device_data_widget(
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
-                  width: 2,
-                ),
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+              color: Colors.white.withOpacity(0.2),
+              width: 2,
+              ),
+              // decoration: BoxDecoration(
+              //   color: Colors.black,
+              //   borderRadius: BorderRadius.circular(20),
+              //   border: Border.all(
+              //     color: Colors.white.withOpacity(0.2),
+              //     width: 2,
+              //   ),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -123,6 +132,7 @@ Padding discovered_device_data_widget(
                         ],
                       ),
                     ),
+                    const ProgressBar(width: 200.0, height: 20.0, fraction: .5),
                   ],
                 ),
               ),
