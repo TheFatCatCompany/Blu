@@ -69,11 +69,11 @@ class _HomePageState extends State<HomePage> {
   void updateValues(){
     setState(() {
       // scan again for bluetooth devices
-      // scanner.scanDevices();
+      scanner.scanDevices();
       deviceWidgets = scanner.getWidgets();
       while (deviceWidgets.isEmpty) {
         deviceWidgets = scanner.getWidgets();
-        Future.delayed(const Duration(seconds: 2));
+        Future.delayed(const Duration(seconds: 5));
       }
     });
   }
