@@ -8,6 +8,8 @@ import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 import 'dart:async';
 import 'package:crypto_app/BluetoothModule/Scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,12 +31,25 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     // Start periodic timer when widget is initialized
-    scanner.scanDevices();
+    requestPermissionsAndStartScan();
+
     timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       updateValues();
     });
   }
+
+  Future<void> requestPermissionsAndStartScan() async {
+    PermissionStatus status = await Permission.bluetooth.request();
+    if (status != PermissionStatus.granted) {
+      // Handle the case where permission is denied
+      return;
+    }
+
+    scanner.scanDevices(); // Start Bluetooth scanning
+  }
+
 
   @override
   void dispose() {

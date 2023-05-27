@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:crypto_app/widgets/chart/discovered_device_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 
 class BluetoothScanner{
