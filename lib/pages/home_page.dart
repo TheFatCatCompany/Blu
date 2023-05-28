@@ -19,9 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double balance = 66032206.10;
-  double profit = 35.22;
-  double profitPercent = 0.22;
   Timer? timer;
   BluetoothScanner scanner = BluetoothScanner();
   List<Widget> deviceWidgets = [];
