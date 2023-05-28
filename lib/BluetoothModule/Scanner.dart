@@ -6,9 +6,20 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:math';
 
 class CustomBluetoothDevice {
+  int hCode;
   BluetoothDevice device;
   int rssi = 0;
-  CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val;
+  CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val, hCode=b.hashCode;
+
+  @override
+  int get hashCode => hCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is CustomBluetoothDevice &&
+              runtimeType == other.runtimeType &&
+              hCode == other.hCode;
 }
 
 
@@ -18,11 +29,12 @@ class BluetoothScanner{
   List<BluetoothDevice> discoveredDevicesList = [];
   List<BluetoothDevice> ignoreDevicesList = [];
   List<ScanResult> results = [];
+  Set<int> ignoreDevicesSet = {};
   FlutterBlue flutterBlue = FlutterBlue.instance;
 
   //get list of discovered devices
   void scanDevices() async {
-    results = await flutterBlue.startScan(timeout: Duration(seconds: 3));
+    results = await flutterBlue.startScan(timeout: const Duration(seconds: 4));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
@@ -40,7 +52,7 @@ class BluetoothScanner{
     List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
     for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
-        currentDevicesMap.remove(device);
+        // currentDevicesMap.remove(device);
       }
     }
     for (CustomBluetoothDevice device in devices) {
@@ -71,14 +83,14 @@ class BluetoothScanner{
     );
 
     const IconData icon = Icons.favorite;
-
+    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => a.value.compareTo(b.value)));
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme, this));
     }
 
     // checking if widgets actually show up
-    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme));
+    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme, this));
     return widgets;
   }
 
@@ -105,4 +117,13 @@ class BluetoothScanner{
       await device.connect();
     }
   }
+
+  void ignoreDevice(String deviceID){
+    ignoreDevicesSet.add(int.parse(deviceID));
+  }
+
+  void unignoreDevice(String deviceID){
+    ignoreDevicesSet.remove(int.parse(deviceID));
+  }
+
 }

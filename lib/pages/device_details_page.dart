@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
 
+import '../circular_danger_indicator.dart';
+
 class DeviceDetailsPage extends StatefulWidget {
   final IconData deviceIcon;
   final String deviceName;
@@ -178,18 +180,21 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                       child: SizedBox(
                         width: 85.w,
                         height: 30.h,
-                        child: LinearProgressIndicator(
-                          value: widget.signalStrength,
-                          backgroundColor: Colors.grey,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              themeData.primaryColor),
-                        ),
+                          child: Stack(
+                              children:[circular_danger_indicator(
+                                fraction: 0.5,
+                                height: 250,
+                                width: 250,
+                              ),
+                                Center(child:Text((0.5*100).toString(), style: TextStyle(fontSize: 30, color: Colors.white)))
+                              ]
+                          )
+                      )
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 3.w),
               child: SizedBox(

@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateValues(){
+    scanner.scanDevices();
     setState(() {
       // scan again for bluetooth devices
       scanner.scanDevices();
