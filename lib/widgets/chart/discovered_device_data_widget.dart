@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ffi';
 
+import 'package:crypto_app/BluetoothModule/Scanner.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,7 @@ Padding discovered_device_data_widget(
    String deviceType,
    double signalStrength,
    ThemeData themeData,
+    BluetoothScanner scanner,
    ) {
   print(signalStrength.toString());
   bool ignore = true;
@@ -111,7 +113,7 @@ Padding discovered_device_data_widget(
                           SizedBox(
                             width: 2.w,
                           ),
-                          IgnoreButton(),
+                          IgnoreButton(scanner: scanner, deviceID: deviceCode),
                         ],
                       ),
                     ),

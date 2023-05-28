@@ -1,14 +1,16 @@
+import 'package:crypto_app/BluetoothModule/Scanner.dart';
 import 'package:flutter/material.dart';
 
 class IgnoreButton extends StatefulWidget {
-  const IgnoreButton({Key? key}) : super(key: key);
+  final BluetoothScanner scanner;
+  final String deviceID;
+  const IgnoreButton({Key? key, required this.scanner, required this.deviceID}) : super(key: key);
 
   @override
-  State<IgnoreButton> createState() => _IgnoreButtonState();
+  _IgnoreButtonState createState() => _IgnoreButtonState();
 }
-
 class _IgnoreButtonState extends State<IgnoreButton> {
-  bool ignore = true;
+  bool ignore = false;
   Color foreground = Colors.white;
   Color background = Colors.lightBlue;
   String ignoreText = "Ignore";
@@ -45,9 +47,11 @@ class _IgnoreButtonState extends State<IgnoreButton> {
           setState((){
             if (ignore == true){
               ignore = false;
+              widget.scanner.unignoreDevice(widget.deviceID);
             }
             else{
               ignore = true;
+              widget.scanner.ignoreDevice(widget.deviceID);
             }
           });
     },

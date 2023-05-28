@@ -29,6 +29,7 @@ class BluetoothScanner{
   List<BluetoothDevice> discoveredDevicesList = [];
   List<BluetoothDevice> ignoreDevicesList = [];
   List<ScanResult> results = [];
+  Set<int> ignoreDevicesSet = {};
   FlutterBlue flutterBlue = FlutterBlue.instance;
 
   //get list of discovered devices
@@ -82,14 +83,14 @@ class BluetoothScanner{
     );
 
     const IconData icon = Icons.favorite;
-
+    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => a.value.compareTo(b.value)));
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme, this));
     }
 
     // checking if widgets actually show up
-    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme));
+    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme, this));
     return widgets;
   }
 
@@ -116,4 +117,13 @@ class BluetoothScanner{
       await device.connect();
     }
   }
+
+  void ignoreDevice(String deviceID){
+    ignoreDevicesSet.add(int.parse(deviceID));
+  }
+
+  void unignoreDevice(String deviceID){
+    ignoreDevicesSet.remove(int.parse(deviceID));
+  }
+
 }
