@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           titleSpacing: 0,
           leadingWidth: 15.w,
           title: Text(
-            "StalkerRadar",
+            "Blu",
             style: TextStyle(
                 color: themeData.brightness == Brightness.light
                 ? Colors.black

@@ -22,8 +22,8 @@ class circular_danger_indicator extends StatefulWidget {
 class _circular_danger_indicatorState extends State<circular_danger_indicator> {
   getColor() {
     int red = (255.0 * widget.fraction).round();
-    int green = (255 * (1 - widget.fraction)).round();
-    return Color.fromRGBO(red, green, 0, 1.0);
+    int blue = (255 * (1 - widget.fraction)).round();
+    return Color.fromRGBO(red, 0, blue, 1.0);
   }
 
   @override

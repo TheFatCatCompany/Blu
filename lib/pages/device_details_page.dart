@@ -182,11 +182,11 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                         height: 30.h,
                           child: Stack(
                               children:[circular_danger_indicator(
-                                fraction: 0.5,
+                                fraction: widget.signalStrength,
                                 height: 250,
                                 width: 250,
                               ),
-                                Center(child:Text((0.5*100).toString(), style: TextStyle(fontSize: 30, color: Colors.white)))
+                                Center(child:Text((widget.signalStrength*100).toInt().toString(), style: TextStyle(fontSize: 30, color: Colors.white)))
                               ]
                           )
                       )
@@ -240,33 +240,9 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                       height: 7.h,
                       child: Center(
                         child: Text(
-                          'Sell',
+                          'SOS',
                           style: GoogleFonts.lato(
                             color: themeData.primaryColor.withOpacity(0.7),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15.sp,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {}, //TODO: add buy action
-                    splashColor: themeData.primaryColor,
-                    highlightColor: themeData.primaryColor,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: themeData.secondaryHeaderColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      width: 43.w,
-                      height: 7.h,
-                      child: Center(
-                        child: Text(
-                          'Buy',
-                          style: GoogleFonts.lato(
-                            color: Colors.white.withOpacity(0.8),
                             fontWeight: FontWeight.bold,
                             fontSize: 15.sp,
                             letterSpacing: 1,
