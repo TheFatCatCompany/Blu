@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -9,6 +10,9 @@ import 'package:sizer/sizer.dart';
 import 'package:crypto_app/pages/device_details_page.dart';
 
 import '../progress_bar.dart';
+import 'ignore_button.dart';
+
+
 
 Padding discovered_device_data_widget(
    bool isHomePage,
@@ -19,7 +23,33 @@ Padding discovered_device_data_widget(
    double signalStrength,
    ThemeData themeData,
    ) {
-  // bool ignore = false;
+  bool ignore = true;
+  Color foreground = Colors.white;
+  Color background = Colors.lightBlue;
+  String ignoreText = "Ignore";
+
+  Color get_foreground(){
+    if (ignore == false) {
+      return Colors.white;
+    } else {
+      return Colors.deepPurple;
+    }
+  }
+  Color get_background(){
+    if (ignore == false) {
+      return Colors.lightBlue;
+    } else {
+      return Colors.grey;
+    }
+  }
+  String get_text(){
+    if (ignore == true) {
+      return "Unignore";
+    } else {
+      return "Ignore";
+    }
+  }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -80,14 +110,7 @@ Padding discovered_device_data_widget(
                           SizedBox(
                             width: 2.w,
                           ),
-                          TextButton(
-                            child: const Text('Ignore', style: TextStyle(fontSize: 20.0),),
-                            onPressed: () {},
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.blue[800],
-                                  elevation: 10,
-                                  backgroundColor: Colors.grey[400])
-                          ),
+                          IgnoreButton(),
                         ],
                       ),
                     ),
@@ -153,3 +176,4 @@ Padding discovered_device_data_widget(
         ),
     );
 }
+
