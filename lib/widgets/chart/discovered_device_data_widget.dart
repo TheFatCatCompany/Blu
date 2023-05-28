@@ -23,6 +23,7 @@ Padding discovered_device_data_widget(
    double signalStrength,
    ThemeData themeData,
    ) {
+  print(signalStrength.toString());
   bool ignore = true;
   Color foreground = Colors.white;
   Color background = Colors.lightBlue;
