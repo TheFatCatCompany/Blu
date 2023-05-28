@@ -65,11 +65,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateValues(){
-    scanner.flutterBlue.stopScan();  // stop scanning
+    scanner.scanDevices();
     setState(() {
       deviceWidgets = scanner.getWidgets();
     });
-    scanner.scanDevices();  // restart scanning
   }
 
   @override
