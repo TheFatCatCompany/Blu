@@ -3,6 +3,7 @@ import 'package:crypto_app/widgets/chart/discovered_device_data_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:math';
 
 class CustomBluetoothDevice {
   BluetoothDevice? device;
@@ -73,13 +74,17 @@ class BluetoothScanner{
       widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
     }
 
-    // checking if widgets acutally show up
+    // checking if widgets actually show up
     widgets.add(discovered_device_data_widget(true, icon, 'test', '69', 'fakedevice', 69.0, theme));
 
     return widgets;
   }
 
-
+  double beaconToMeter(int measuredPower, int rssi, int n){
+    double temp1 = (measuredPower - rssi)/(10 * n);
+    double meters = pow(10.0,temp1).toDouble();
+    return meters;
+  }
 
 //get list of paired devices
   void getPairedDevices() async {
