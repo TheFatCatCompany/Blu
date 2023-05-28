@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     // Start periodic timer when widget is initialized
     requestPermissionsAndStartScan();
 
-    timer = Timer.periodic(const Duration(seconds: 8), (Timer t) {
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       updateValues();
     });
   }
