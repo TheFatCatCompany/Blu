@@ -50,10 +50,9 @@ class BluetoothScanner{
       }
     });
     List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
-    Map<CustomBluetoothDevice, int> devicesMapCopy = Map.from(currentDevicesMap);
     for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
-        devicesMapCopy.remove(device);
+        // currentDevicesMap.remove(device);
       }
     }
     for (CustomBluetoothDevice device in devices) {
