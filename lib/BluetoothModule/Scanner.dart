@@ -50,19 +50,24 @@ class BluetoothScanner{
       }
     });
     List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
+
+    Map<CustomBluetoothDevice, int> mapcopy = Map.from(currentDevicesMap);
+
     for (CustomBluetoothDevice device in currentDevicesKeys) {
-      if(!devices.contains(device)){
-        // currentDevicesMap.remove(device);
+      if (!devices.contains(device)) {
+        currentDevicesMap.remove(device);
       }
     }
     for (CustomBluetoothDevice device in devices) {
-      if(!currentDevicesMap.containsKey(device)){
+      if (!currentDevicesMap.containsKey(device)) {
         currentDevicesMap[device] = 1;
       }
       else {
         currentDevicesMap[device] = currentDevicesMap[device]! + 1;
       }
     }
+
+    if (currentDevicesMap.isEmpty) {currentDevicesMap = Map.from(mapcopy); }
   }
 
   List<Widget> getWidgets() {
