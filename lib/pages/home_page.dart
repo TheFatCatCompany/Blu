@@ -9,6 +9,7 @@ import 'package:unicons/unicons.dart';
 import 'dart:async';
 import 'package:crypto_app/BluetoothModule/Scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 
 class HomePage extends StatefulWidget {
@@ -64,15 +65,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateValues(){
+    scanner.flutterBlue.stopScan();  // stop scanning
     setState(() {
-      // scan again for bluetooth devices
-      scanner.scanDevices();
       deviceWidgets = scanner.getWidgets();
-      while (deviceWidgets.isEmpty) {
-        deviceWidgets = scanner.getWidgets();
-        Future.delayed(const Duration(seconds: 5));
-      }
     });
+    scanner.scanDevices();  // restart scanning
   }
 
   @override
