@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:math';
 
 class CustomBluetoothDevice {
-  BluetoothDevice? device;
+  BluetoothDevice device;
   int rssi = 0;
   CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val;
 }
@@ -17,10 +17,12 @@ class BluetoothScanner{
   List<BluetoothDevice> pairedDevicesList = [];
   List<BluetoothDevice> discoveredDevicesList = [];
   List<BluetoothDevice> ignoreDevicesList = [];
+  List<ScanResult> results = [];
+  FlutterBlue flutterBlue = FlutterBlue.instance;
 
   //get list of discovered devices
   void scanDevices() async {
-    List<ScanResult> results = await FlutterBlue.instance.startScan(timeout: const Duration(seconds: 4));
+    results = await flutterBlue.startScan(timeout: Duration(seconds: 3));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
@@ -71,13 +73,12 @@ class BluetoothScanner{
     const IconData icon = Icons.favorite;
 
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
-      BluetoothDevice b = bt.device!;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), bt.rssi.toDouble(), theme));
+      BluetoothDevice b = bt.device;
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
     }
 
     // checking if widgets actually show up
-    widgets.add(discovered_device_data_widget(true, icon, 'test', '69', 'fakedevice', 69.0, theme));
-
+    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme));
     return widgets;
   }
 
