@@ -21,9 +21,7 @@ class BluetoothScanner{
 
   //get list of discovered devices
   void scanDevices() async {
-    while (!(await flutterBlue.isOn)) {}
-
-    results = await flutterBlue.startScan(timeout: const Duration(seconds: 3));
+    results = await flutterBlue.startScan(timeout: Duration(seconds: 3));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
