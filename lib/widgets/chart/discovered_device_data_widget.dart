@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -9,6 +6,9 @@ import 'package:sizer/sizer.dart';
 import 'package:crypto_app/pages/device_details_page.dart';
 
 import '../progress_bar.dart';
+import 'ignore_button.dart';
+
+
 
 Padding discovered_device_data_widget(
    bool isHomePage,
