@@ -19,6 +19,7 @@ Padding discovered_device_data_widget(
    double signalStrength,
    ThemeData themeData,
    ) {
+  // bool ignore = false;
     return Padding(
       padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -75,6 +76,17 @@ Padding discovered_device_data_widget(
                               fontSize: 13.sp,
                               letterSpacing: 1,
                             ),
+                          ),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+                          TextButton(
+                            child: const Text('Ignore', style: TextStyle(fontSize: 20.0),),
+                            onPressed: () {},
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.blue[800],
+                                  elevation: 10,
+                                  backgroundColor: Colors.grey[400])
                           ),
                         ],
                       ),
