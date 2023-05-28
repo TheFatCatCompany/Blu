@@ -52,7 +52,7 @@ class BluetoothScanner{
     List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
     for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
-        // currentDevicesMap.remove(device);
+        currentDevicesMap.remove(device);
       }
     }
     for (CustomBluetoothDevice device in devices) {
@@ -83,7 +83,7 @@ class BluetoothScanner{
     );
 
     const IconData icon = Icons.favorite;
-    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => a.value.compareTo(b.value)));
+    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => b.value.compareTo(a.value)));
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
       widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme, this));
