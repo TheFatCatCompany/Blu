@@ -48,13 +48,13 @@ class BluetoothScanner{
     double prssi = previousrssi.toDouble();
     double c = cycle.toDouble();
     double r = rssi-prssi;
-    danger = (c/100 + (r*0.05)).clamp(0.0, 1.0);
+    danger = (c/100 + (r*0.01)).clamp(0.0, 1.0);
     return danger;
   }
 
   //get list of discovered devices
   void scanDevices() async {
-    results = await flutterBlue.startScan(timeout: const Duration(seconds: 4));
+    results = await flutterBlue.startScan(timeout: const Duration(seconds: 7));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device)).toList();
     List<int> tmpRssi = results.map((results) => results.rssi).toList();
