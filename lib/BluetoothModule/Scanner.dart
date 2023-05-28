@@ -51,7 +51,7 @@ class BluetoothScanner{
   }
 
   List<Widget> getWidgets() {
-    List<Widget> widgets = [];
+    List<Padding> widgets = [];
 
     ThemeData theme = ThemeData(
       primarySwatch: Colors.blue,
@@ -74,9 +74,9 @@ class BluetoothScanner{
       widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
     }
 
+
     // checking if widgets actually show up
     widgets.add(discovered_device_data_widget(true, icon, 'test', '69', 'fakedevice', 69.0, theme));
-
     return widgets;
   }
 
