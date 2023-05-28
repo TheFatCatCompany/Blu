@@ -20,7 +20,7 @@ class _IgnoreButtonState extends State<IgnoreButton> {
     }
   }
   Color get_background(){
-    if (ignore == false) {
+    if (!ignore) {
       return Colors.lightBlue;
     } else {
       return Colors.grey;
@@ -42,11 +42,11 @@ class _IgnoreButtonState extends State<IgnoreButton> {
         child: Text(get_text(), style: TextStyle(fontSize: 20.0),),
     onPressed: () {
           setState((){
-            if (ignore == true){
+            if (ignore){
               ignore = false;
               widget.scanner.unignoreDevice(widget.deviceID);
             }
-            else{
+            else {
               ignore = true;
               widget.scanner.ignoreDevice(widget.deviceID);
             }
