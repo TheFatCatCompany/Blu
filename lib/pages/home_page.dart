@@ -9,7 +9,6 @@ import 'package:unicons/unicons.dart';
 import 'dart:async';
 import 'package:crypto_app/BluetoothModule/Scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
 
 
 class HomePage extends StatefulWidget {
@@ -20,6 +19,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double balance = 66032206.10;
+  double profit = 35.22;
+  double profitPercent = 0.22;
   Timer? timer;
   BluetoothScanner scanner = BluetoothScanner();
   List<Widget> deviceWidgets = [];
@@ -65,23 +67,29 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateValues(){
-    scanner.flutterBlue.stopScan();  // stop scanning
     setState(() {
+      // scan again for bluetooth devices
+      scanner.scanDevices();
       deviceWidgets = scanner.getWidgets();
+      while (deviceWidgets.isEmpty) {
+        deviceWidgets = scanner.getWidgets();
+        Future.delayed(const Duration(seconds: 5));
+      }
     });
-    scanner.scanDevices();  // restart scanning
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
+      backgroundColor: themeData.backgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(40.0), //appbar size
         child: AppBar(
           bottomOpacity: 0.0,
           elevation: 0.0,
           shadowColor: Colors.transparent,
+          backgroundColor: themeData.backgroundColor,
           leading: SizedBox(
             height: 10.w,
             width: 15.w,
