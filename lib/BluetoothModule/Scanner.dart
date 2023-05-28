@@ -62,7 +62,7 @@ class BluetoothScanner{
     Map<CustomBluetoothDevice, DeviceData> mapcopy = Map.from(currentDevicesMap);
 
     for (CustomBluetoothDevice device in currentDevicesKeys) {
-      if (!devices.contains(device)) {
+      if (!devices.contains(device) || ignoreDevicesSet.contains(device.hashCode)) {
         currentDevicesMap.remove(device); // no longer in range
       }
     }
@@ -109,6 +109,7 @@ class BluetoothScanner{
 
     // checking if widgets actually show up
     widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme, this));
+
     return widgets;
   }
 
