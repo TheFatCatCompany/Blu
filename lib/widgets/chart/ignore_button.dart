@@ -8,7 +8,7 @@ class IgnoreButton extends StatefulWidget {
 }
 
 class _IgnoreButtonState extends State<IgnoreButton> {
-  bool ignore = true;
+  bool ignore = false;
   Color foreground = Colors.white;
   Color background = Colors.lightBlue;
   String ignoreText = "Ignore";
