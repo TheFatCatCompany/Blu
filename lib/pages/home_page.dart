@@ -67,15 +67,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateValues(){
-    scanner.scanDevices();
     setState(() {
       // scan again for bluetooth devices
-      scanner.scanDevices();
-      deviceWidgets = scanner.getWidgets();
-      while (deviceWidgets.isEmpty) {
+      try {
+        scanner.scanDevices();
         deviceWidgets = scanner.getWidgets();
-        Future.delayed(const Duration(seconds: 5));
-      }
+        while (deviceWidgets.isEmpty) {
+          deviceWidgets = scanner.getWidgets();
+          Future.delayed(const Duration(seconds: 5));
+        }
+      } catch (e) {}
     });
   }
 
