@@ -48,7 +48,7 @@ class BluetoothScanner{
     double prssi = previousrssi.toDouble();
     double c = cycle.toDouble();
     double r = rssi-prssi;
-    danger = (c/100 + (r*0.01)).clamp(0.0, 1.0);
+    danger = (c/100 + (r*0.005)).clamp(0.0, 1.0);
     return danger;
   }
 
