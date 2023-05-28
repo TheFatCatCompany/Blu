@@ -1,7 +1,3 @@
-import 'dart:developer';
-import 'dart:ffi';
-
-import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -23,33 +19,6 @@ Padding discovered_device_data_widget(
    double signalStrength,
    ThemeData themeData,
    ) {
-  bool ignore = true;
-  Color foreground = Colors.white;
-  Color background = Colors.lightBlue;
-  String ignoreText = "Ignore";
-
-  Color get_foreground(){
-    if (ignore == false) {
-      return Colors.white;
-    } else {
-      return Colors.deepPurple;
-    }
-  }
-  Color get_background(){
-    if (ignore == false) {
-      return Colors.lightBlue;
-    } else {
-      return Colors.grey;
-    }
-  }
-  String get_text(){
-    if (ignore == true) {
-      return "Unignore";
-    } else {
-      return "Ignore";
-    }
-  }
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -107,10 +76,6 @@ Padding discovered_device_data_widget(
                               letterSpacing: 1,
                             ),
                           ),
-                          SizedBox(
-                            width: 2.w,
-                          ),
-                          IgnoreButton(),
                         ],
                       ),
                     ),
@@ -176,4 +141,3 @@ Padding discovered_device_data_widget(
         ),
     );
 }
-
