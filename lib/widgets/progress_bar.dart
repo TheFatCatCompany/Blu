@@ -19,21 +19,21 @@ class _ProgressBarState extends State<ProgressBar> {
   // double red = 255.0 * widget.fraction;
   // int green = 255 * (1-widget.fraction);
   int red = 0;
-  int green = 0;
+  int blue = 0;
 
   @override
   void initState() {
     super.initState();
     red = (255.0 * widget.fraction).round();
-    green = (255 * (1-widget.fraction)).round();
+    blue = (255 * (1-widget.fraction)).round();
     print(red);
 
   }
 
   Color getColor(){
     red = (255.0 * widget.fraction).round();
-    green = (255 * (1-widget.fraction)).round();
-    return Color.fromRGBO(red, green, 0, 1.0);
+    blue = (255 * (1-widget.fraction)).round();
+    return Color.fromRGBO(red, 0, blue, 1.0);
   }
 
   @override
