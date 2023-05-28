@@ -16,6 +16,7 @@ class BluetoothScanner{
   Map<CustomBluetoothDevice, int> currentDevicesMap = {};
   List<BluetoothDevice> pairedDevicesList = [];
   List<BluetoothDevice> discoveredDevicesList = [];
+  List<BluetoothDevice> ignoreDevicesList = [];
 
   //get list of discovered devices
   void scanDevices() async {
@@ -85,6 +86,8 @@ class BluetoothScanner{
     double meters = pow(10.0,temp1).toDouble();
     return meters;
   }
+
+
 
 //get list of paired devices
   void getPairedDevices() async {
