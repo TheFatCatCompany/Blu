@@ -24,6 +24,7 @@ Padding discovered_device_data_widget(
    double signalStrength,
    ThemeData themeData,
     BluetoothScanner scanner,
+    int hCode
    ) {
   bool ignore = true;
   Color foreground = Colors.white;
@@ -112,7 +113,7 @@ Padding discovered_device_data_widget(
                           SizedBox(
                             width: 2.w,
                           ),
-                          IgnoreButton(scanner: scanner, deviceID: deviceCode),
+                          IgnoreButton(scanner: scanner, deviceID: hCode),
                         ],
                       ),
                     ),

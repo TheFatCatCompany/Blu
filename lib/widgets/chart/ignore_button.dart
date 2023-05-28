@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class IgnoreButton extends StatefulWidget {
   final BluetoothScanner scanner;
-  final String deviceID;
+  final int deviceID;
   const IgnoreButton({Key? key, required this.scanner, required this.deviceID}) : super(key: key);
 
   @override
@@ -11,9 +11,6 @@ class IgnoreButton extends StatefulWidget {
 }
 class _IgnoreButtonState extends State<IgnoreButton> {
   bool ignore = false;
-  Color foreground = Colors.white;
-  Color background = Colors.lightBlue;
-  String ignoreText = "Ignore";
 
   Color get_foreground(){
     if (ignore == false) {
