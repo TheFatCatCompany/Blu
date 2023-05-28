@@ -16,10 +16,13 @@ class BluetoothScanner{
   Map<CustomBluetoothDevice, int> currentDevicesMap = {};
   List<BluetoothDevice> pairedDevicesList = [];
   List<BluetoothDevice> discoveredDevicesList = [];
+  FlutterBlue flutterBlue = FlutterBlue.instance;
 
   //get list of discovered devices
   void scanDevices() async {
-    List<ScanResult> results = await FlutterBlue.instance.startScan(timeout: const Duration(seconds: 4));
+    while (!(await flutterBlue.isOn)) {}
+
+    List<ScanResult> results = await FlutterBlue.instance.startScan(timeout: const Duration(seconds: 3));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
@@ -75,7 +78,7 @@ class BluetoothScanner{
 
 
     // checking if widgets actually show up
-    widgets.add(discovered_device_data_widget(true, icon, 'test', '69', 'fakedevice', 69.0, theme));
+    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme));
     return widgets;
   }
 
