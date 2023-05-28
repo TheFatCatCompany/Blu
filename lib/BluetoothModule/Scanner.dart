@@ -6,9 +6,20 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:math';
 
 class CustomBluetoothDevice {
+  int hCode;
   BluetoothDevice device;
   int rssi = 0;
-  CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val;
+  CustomBluetoothDevice(BluetoothDevice b, int val): device=b, rssi=val, hCode=b.hashCode;
+
+  @override
+  int get hashCode => hCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is CustomBluetoothDevice &&
+              runtimeType == other.runtimeType &&
+              hCode == other.hCode;
 }
 
 
@@ -23,7 +34,7 @@ class BluetoothScanner{
 
   //get list of discovered devices
   void scanDevices() async {
-    results = await flutterBlue.startScan(timeout: Duration(seconds: 3));
+    results = await flutterBlue.startScan(timeout: const Duration(seconds: 4));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
@@ -41,7 +52,7 @@ class BluetoothScanner{
     List<CustomBluetoothDevice> currentDevicesKeys = currentDevicesMap.keys.toList();
     for (CustomBluetoothDevice device in currentDevicesKeys) {
       if(!devices.contains(device)){
-        currentDevicesMap.remove(device);
+        //currentDevicesMap.remove(device);
       }
     }
     for (CustomBluetoothDevice device in devices) {

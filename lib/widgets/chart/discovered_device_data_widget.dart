@@ -25,6 +25,7 @@ Padding discovered_device_data_widget(
    ThemeData themeData,
     BluetoothScanner scanner,
    ) {
+  print(signalStrength.toString());
   bool ignore = true;
   Color foreground = Colors.white;
   Color background = Colors.lightBlue;
