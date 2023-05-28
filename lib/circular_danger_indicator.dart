@@ -50,4 +50,3 @@ class _circular_danger_indicatorState extends State<circular_danger_indicator> {
 
 
 }
-

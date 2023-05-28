@@ -1,13 +1,14 @@
 
 import 'package:crypto_app/widgets/chart/chart.dart';
 import 'package:crypto_app/widgets/chart/chart_sort_widget.dart';
-import 'package:crypto_app/widgets/circular_danger_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import 'package:unicons/unicons.dart';
+
+import '../circular_danger_indicator.dart';
 
 class DeviceDetailsPage extends StatefulWidget {
   final IconData deviceIcon;
@@ -159,7 +160,7 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                 ),
               ),
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
               ],
@@ -176,20 +177,19 @@ class _DeviceDetailsPageState extends State<DeviceDetailsPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Center(
-
                       child: SizedBox(
                         width: 85.w,
                         height: 30.h,
-                        child: Stack(
-                            children:[circular_danger_indicator(
-                              fraction: 0.5,
-                              height: 250,
-                              width: 250,
-                            ),
-                              Center(child:Text((0.5*100).toString(), style: TextStyle(fontSize: 30, color: Colors.white)))
-                            ]
-                        )
-                        )
+                          child: Stack(
+                              children:[circular_danger_indicator(
+                                fraction: 0.5,
+                                height: 250,
+                                width: 250,
+                              ),
+                                Center(child:Text((0.5*100).toString(), style: TextStyle(fontSize: 30, color: Colors.white)))
+                              ]
+                          )
+                      )
                       ),
                     ),
                   ),

@@ -27,11 +27,11 @@ class BluetoothScanner{
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device, result.rssi)).toList();
 
     devices.sort((a, b) {
-      if (a.device.name.isNotEmpty && b.device.name.isNotEmpty) {
-        return a.device.name.compareTo(b.device.name);
-      } else if (a.device.name.isNotEmpty) {
+      if (a.device!.name.isNotEmpty && b.device!.name.isNotEmpty) {
+        return a.device!.name.compareTo(b.device!.name);
+      } else if (a.device!.name.isNotEmpty) {
         return -1; // a has a name, b doesn't have a name (b should come after a)
-      } else if (b.device.name.isNotEmpty) {
+      } else if (b.device!.name.isNotEmpty) {
         return 1; // b has a name, a doesn't have a name (a should come after b)
       } else {
         return 0; // both a and b don't have names (order doesn't matter)
@@ -51,31 +51,31 @@ class BluetoothScanner{
         currentDevicesMap[device] = currentDevicesMap[device]! + 1;
       }
     }
-
   }
 
   List<Widget> getWidgets() {
-    List<Padding> widgets = [];
+    List<Widget> widgets = [];
 
     ThemeData theme = ThemeData(
       primarySwatch: Colors.blue,
       brightness: Brightness.light,
       primaryColor: Colors.lightBlue[800],
+      primaryColorBrightness: Brightness.dark,
       primaryColorLight: Colors.lightBlue[400],
       primaryColorDark: Colors.lightBlue[900],
       canvasColor: Colors.white,
       scaffoldBackgroundColor: Colors.white,
+      bottomAppBarColor: Colors.white,
       cardColor: Colors.white,
       dividerColor: Colors.grey[400],
     );
 
     const IconData icon = Icons.favorite;
-    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => a.value.compareTo(b.value)));
+
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
       widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.toDouble(), theme));
     }
-
 
     // checking if widgets actually show up
     widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme));
