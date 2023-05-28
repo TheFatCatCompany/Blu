@@ -48,13 +48,13 @@ class BluetoothScanner{
     double prssi = previousrssi.toDouble();
     double c = cycle.toDouble();
     double r = rssi-prssi;
-    danger = (c/100 + (r*0.05)).clamp(0.0, 1.0);
+    danger = (c/50 + (r*0.005)).clamp(0.0, 1.0);
     return danger;
   }
 
   //get list of discovered devices
   void scanDevices() async {
-    results = await flutterBlue.startScan(timeout: const Duration(seconds: 4));
+    results = await flutterBlue.startScan(timeout: const Duration(seconds: 7));
 
     List<CustomBluetoothDevice> devices = results.map((result) => CustomBluetoothDevice(result.device)).toList();
     List<int> tmpRssi = results.map((results) => results.rssi).toList();
@@ -107,8 +107,9 @@ class BluetoothScanner{
       widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), dangerValue(currentDevicesMap[bt]!.rssi, currentDevicesMap[bt]!.prevRssi, currentDevicesMap[bt]!.cycles), theme, this));
     }
 
-    // checking if widgets actually show up
-    widgets.add(discovered_device_data_widget(true, icon, 'Updating...', '69', 'fakedevice', 69.0, theme, this));
+    if (widgets.length > 20) {
+      widgets = widgets.sublist(0, 20);
+    }
     return widgets;
   }
 
