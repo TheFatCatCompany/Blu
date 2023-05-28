@@ -169,7 +169,7 @@ Padding discovered_device_data_widget(
                         ],
                       ),
                     ),
-                    const ProgressBar(width: 200.0, height: 20.0, fraction: .5),
+                    ProgressBar(width: 200.0, height: 20.0, fraction: signalStrength),
                   ],
                 ),
               ),
