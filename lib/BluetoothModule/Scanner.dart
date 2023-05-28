@@ -62,7 +62,8 @@ class BluetoothScanner{
     Map<CustomBluetoothDevice, DeviceData> mapcopy = Map.from(currentDevicesMap);
 
     for (CustomBluetoothDevice device in currentDevicesKeys) {
-      if (!devices.contains(device)) {
+      if (!devices.contains(device) || ignoreDevicesSet.contains(device.hCode)) {
+        if (ignoreDevicesSet.contains(device.hCode)) { print(device.hCode.toString()); }
         currentDevicesMap.remove(device); // no longer in range
       }
     }
@@ -104,7 +105,7 @@ class BluetoothScanner{
     currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => dangerValue(b.value.rssi, b.value.prevRssi, b.value.cycles).compareTo(dangerValue(a.value.rssi, a.value.prevRssi, a.value.cycles))));
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), dangerValue(currentDevicesMap[bt]!.rssi, currentDevicesMap[bt]!.prevRssi, currentDevicesMap[bt]!.cycles), theme, this));
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), dangerValue(currentDevicesMap[bt]!.rssi, currentDevicesMap[bt]!.prevRssi, currentDevicesMap[bt]!.cycles), theme, this, bt.hCode));
     }
 
     if (widgets.length > 20) {
@@ -137,12 +138,12 @@ class BluetoothScanner{
     }
   }
 
-  void ignoreDevice(String deviceID){
-    ignoreDevicesSet.add(int.parse(deviceID));
+  void ignoreDevice(int deviceID){
+    ignoreDevicesSet.add(deviceID);
   }
 
-  void unignoreDevice(String deviceID){
-    ignoreDevicesSet.remove(int.parse(deviceID));
+  void unignoreDevice(int deviceID){
+    ignoreDevicesSet.remove(deviceID);
   }
 
 }
