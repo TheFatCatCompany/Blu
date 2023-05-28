@@ -40,6 +40,18 @@ class BluetoothScanner{
   Set<int> ignoreDevicesSet = {};
   FlutterBlue flutterBlue = FlutterBlue.instance;
 
+  //function to produce danger value between 0.0 and 1.0
+  double dangerValue(int currentrssi, int previousrssi, int cycle)
+  {
+    double danger = 0.0;
+    double rssi = currentrssi.toDouble();
+    double prssi = previousrssi.toDouble();
+    double c = cycle.toDouble();
+    double r = rssi-prssi;
+    danger = (c/100 + (r*0.05)).clamp(0.0, 1.0);
+    return danger;
+  }
+
   //get list of discovered devices
   void scanDevices() async {
     results = await flutterBlue.startScan(timeout: const Duration(seconds: 4));
@@ -89,10 +101,10 @@ class BluetoothScanner{
     );
 
     const IconData icon = Icons.favorite;
-    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => b.value.cycles.compareTo(a.value.cycles)));
+    currentDevicesMap = Map.fromEntries(currentDevicesMap.entries.toList()..sort((a, b) => dangerValue(b.value.rssi, b.value.prevRssi, b.value.cycles).compareTo(dangerValue(a.value.rssi, a.value.prevRssi, a.value.cycles))));
     for (CustomBluetoothDevice bt in currentDevicesMap.keys) {
       BluetoothDevice b = bt.device;
-      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), currentDevicesMap[bt]!.cycles.toDouble(), theme, this));
+      widgets.add(discovered_device_data_widget(true, icon, b.name, b.hashCode.toString(), b.type.toString(), dangerValue(currentDevicesMap[bt]!.rssi, currentDevicesMap[bt]!.prevRssi, currentDevicesMap[bt]!.cycles), theme, this));
     }
 
     // checking if widgets actually show up
