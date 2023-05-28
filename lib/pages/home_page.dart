@@ -57,8 +57,6 @@ class _HomePageState extends State<HomePage> {
     scanner.scanDevices(); // Start Bluetooth scanning
   }
 
-
-
   @override
   void dispose() {
     // Cancel timer when widget is gone
